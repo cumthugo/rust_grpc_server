@@ -1,27 +1,26 @@
-use std::time::SystemTime;
+//use std::time::SystemTime;
 use tonic::{transport::Server, Request, Response, Status};
 
-pub mod hello {
-    tonic::include_proto!("hello");
+pub mod h625 {
+    tonic::include_proto!("ford.ivi.h625");
 }
 
-use hello::greeter_server::{Greeter, GreeterServer};
-use hello::{HelloReply, HelloRequest};
+use h625::greeter_server::{Greeter, GreeterServer};
+use h625::{FooReply, FooRequest};
 
 #[derive(Default)]
 pub struct MyGreeter {}
 
 #[tonic::async_trait]
 impl Greeter for MyGreeter {
-    async fn say_hello(
+    async fn foo(
         &self,
-        request: Request<HelloRequest>,
-    ) -> Result<Response<HelloReply>, Status> {
-        let reply = hello::HelloReply {
+        request: Request<FooRequest>,
+    ) -> Result<Response<FooReply>, Status> {
+        let reply = h625::FooReply {
             message: format!(
-                "Hello {}!,Current Time is {:?}",
-                request.into_inner().name,
-                SystemTime::now()
+                "Hello {}!, This is H625 Ford IVI Project",
+                request.into_inner().name
             ),
         };
 
@@ -31,7 +30,7 @@ impl Greeter for MyGreeter {
 
 #[tokio::main]
 async fn main() -> Result<(), Box<dyn std::error::Error>> {
-    let addr = "[::1]:50051".parse()?;
+    let addr = "0.0.0.0:50051".parse()?;
     let greeter = MyGreeter::default();
 
     println!("GreeterServer listening on {}", addr);

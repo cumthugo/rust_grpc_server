@@ -1,19 +1,19 @@
 syntax = "proto3";
 
-package hello;
+package ford.ivi.h625;
 
 // The greeting service definition.
 service Greeter {
   // Sends a greeting
-  rpc SayHello (HelloRequest) returns (HelloReply) {}
+  rpc Foo (FooRequest) returns (FooReply) {}
 }
 
 // The request message containing the user's name.
-message HelloRequest {
+message FooRequest {
   string name = 1;
 }
 
 // The response message containing the greetings.
-message HelloReply {
+message FooReply {
   string message = 1;
 }
