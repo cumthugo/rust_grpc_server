@@ -17,13 +17,18 @@ impl Greeter for MyGreeter {
         &self,
         request: Request<HelloRequest>,
     ) -> Result<Response<HelloReply>, Status> {
+        let random_number = rand::random::<i32>();
+        let req = request.into_inner();
         let reply = h625::HelloReply {
             message: format!(
-                "Hello {}!, This is H625 Ford IVI Project",
-                request.into_inner().name
+                "Hello {}!, This is H625 Ford IVI Project, your age is {},\nI will give you a random number in number filed",
+                req.name, req.age
             ),
+            number : random_number,
         };
 
+        println!("Request: {:?}", req);
+        println!("Response: {:?}", reply);
         Ok(Response::new(reply))
     }
 
